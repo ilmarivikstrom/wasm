@@ -44,14 +44,6 @@ async function initPyodide() {
     document.getElementById("output").innerText = pyodideReady.globals.get('sys').stdout.getvalue();
 
     await pyodideReady.runPythonAsync(`
-    #import builtins
-    #original_import = builtins.__import__
-    #allowed_modules = {'math', 'random', 'pydoc', '_io', 'zlib', '__future__', 'builtins', 'importlib._bootstrap', 'importlib._bootstrap_external'}
-    #def restricted_import(name, globals=None, locals=None, fromlist=(), level=0):
-    #    if name not in allowed_modules:
-    #        raise ImportError(f"Module '{name}' is not allowed")
-    #    return original_import(name, globals, locals, fromlist, level)
-    #builtins.__import__ = restricted_import
 
     class Alex:
         def __init__(self):
