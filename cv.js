@@ -65,6 +65,9 @@ async function initPyodide() {
         def contact(self):
             return "Email: alex@example.com | GitHub: github.com/alex"
 
+        def secret(self):
+            return "There is more to explore here... 🔍"
+
     alex = Alex()
     `);
 
