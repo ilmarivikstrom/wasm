@@ -1,4 +1,6 @@
 let pyodideReady;
+let commandHistory = [];
+let commandHistoryIndex = -1;
 
 async function initPyodide() {
     pyodideReady = await loadPyodide();
@@ -81,6 +83,29 @@ async function initPyodide() {
 }
 
 async function runCommand(event, manualCommand = null) {
+    if (event?.key === "ArrowUp" || event?.key === "ArrowDown") {
+        let input = document.getElementById("input");
+        
+        if (event.key === "ArrowUp") {
+            if (currentHistoryIndex < commandHistory.length - 1) {
+                currentHistoryIndex++;
+                input.value = commandHistory[commandHistory.length - 1 - currentHistoryIndex];
+            }
+        } else if (event.key === "ArrowDown") {
+            if (currentHistoryIndex > 0) {
+                currentHistoryIndex--;
+                input.value = commandHistory[commandHistory.length - 1 - currentHistoryIndex];
+            } else if (currentHistoryIndex === 0) {
+                currentHistoryIndex = -1;
+                input.value = '';
+            }
+        }
+        setTimeout(() => {
+            input.selectionStart = input.selectionEnd = input.value.length;
+        }, 0);
+        
+        return;
+    }
     // Handle both Enter keypress and manual calls
     if (event?.key === "Enter" || manualCommand !== null) {
         let input = document.getElementById("input");
@@ -94,6 +119,11 @@ async function runCommand(event, manualCommand = null) {
             terminal.scrollTop = terminal.scrollHeight;
             return;
         }
+
+        if (!manualCommand && command && (commandHistory.length === 0 || command !== commandHistory[commandHistory.length - 1])) {
+            commandHistory.push(command);
+        }
+        currentHistoryIndex = -1;
 
         if (command.toLowerCase().includes("quit") || command.toLowerCase().includes("exit")) {
             output.innerHTML += `\n<div class="command-line">>>> ${command}</div>`;
