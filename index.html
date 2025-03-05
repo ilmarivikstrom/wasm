@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Port</title>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.26.1/full/pyodide.js"></script>
+    <style>
+        body {
+            background: #1d1f21;
+            font-family: 'Cascadia Code', monospace;
+            margin: 0;
+            padding: 50px;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        #terminal {
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        #terminal::-webkit-scrollbar {
+            display: none;
+        }
+
+        #glare {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            background-image: radial-gradient(hsl(154 5% 15%) 0%, hsl(154 50% 5%) 70%);
+        }
+
+        @keyframes lines {
+            0% {
+                background-position: 0px 0px
+            }
+
+            50% {
+                background-position: 0px 0px
+            }
+
+            51% {
+                background-position: 0px 2px
+            }
+
+            100% {
+                background-position: 0px 2px
+            }
+        }
+
+        #interlaced {
+            position: fixed;
+            background: repeating-linear-gradient(transparent 0px 1px, hsl(154 0% 0%/.3) 3px 4px);
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+            pointer-events: none;
+            animation: lines 0.066666666s linear infinite;
+        }
+
+        #output {
+            white-space: pre;
+            /* Change from pre-wrap to pre */
+            color: hsl(154 84% 70%);
+            text-shadow: 0 0 5px hsl(154 84% 70%);
+        }
+
+        .command-line {
+            color: hsl(25, 66%, 62%);
+            text-shadow: 0 0 5px hsl(24, 66%, 62%);
+            padding-top: 1px;
+            padding-bottom: 1px;
+        }
+
+        #command-row {
+            display: flex;
+            align-items: center;
+            margin-top: 19px;
+        }
+
+        #prompt {
+            color: hsl(25, 66%, 62%);
+            text-shadow: 0 0 5px hsl(24, 66%, 62%);
+            padding-right: 5px;
+            padding-top: 1px;
+            padding-bottom: 1px;
+            user-select: none;
+        }
+
+        #input {
+            background: none;
+            border: none;
+            color: hsl(25, 66%, 62%);
+            text-shadow: 0 0 5px hsl(24, 66%, 62%);
+            flex-grow: 1;
+            font-family: 'Cascadia Code', monospace;
+            font-size: 16px;
+            outline: none;
+            vertical-align: middle;
+            padding-left: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="terminal">
+        <div id="output"></div>
+        <div id="command-row">
+            <span id="prompt"></span>
+            <input id="input" type="text" disabled spellcheck="false" onkeydown="runCommand(event)">
+        </div>
+        <div id="interlaced"></div>
+        <div id="glare"></div>
+    </div>
+    <script src="cv.js"></script>
+</body>
+
+</html>
