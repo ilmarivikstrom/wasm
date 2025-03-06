@@ -10,16 +10,22 @@
             background: #1d1f21;
             font-family: 'Cascadia Code', monospace;
             margin: 0;
-            padding: 50px;
+            padding: 0;
             overflow: hidden;
             height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         #terminal {
-            height: calc(100vh - 100px);
+            width: 800px;
+            height: 80vh;
             overflow-y: auto;
             scrollbar-width: none;
             -ms-overflow-style: none;
+            padding: 20px;
+            border-radius: 8px;
         }
 
         #terminal::-webkit-scrollbar {
@@ -67,10 +73,13 @@
         }
 
         #output {
-            white-space: pre;
-            /* Change from pre-wrap to pre */
+            white-space: pre-wrap; /* Change from pre to pre-wrap */
             color: hsl(154 84% 70%);
             text-shadow: 0 0 5px hsl(154 84% 70%);
+            /* Ensure content wraps */
+            max-width: 100%;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .command-line {
@@ -78,14 +87,19 @@
             text-shadow: 0 0 5px hsl(24, 66%, 62%);
             padding-top: 1px;
             padding-bottom: 1px;
+            /* Ensure command lines wrap */
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         #command-row {
             display: flex;
             align-items: center;
             margin-top: 19px;
+            /* Ensure command row stays within width */
+            max-width: 100%;
         }
-
         #prompt {
             color: hsl(25, 66%, 62%);
             text-shadow: 0 0 5px hsl(24, 66%, 62%);
@@ -106,6 +120,10 @@
             outline: none;
             vertical-align: middle;
             padding-left: 4px;
+            /* Ensure input wraps and stays within width */
+            max-width: calc(100% - 50px); /* Account for prompt width */
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
     </style>
 </head>
